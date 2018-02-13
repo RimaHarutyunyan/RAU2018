@@ -21,4 +21,13 @@ public class GameSample {
     public static void hanoi(String[]a, String[]b, String[]c) {
 
     }
+    /*
+    1.hanoi
+    2.count words that has matching oposite
+
+    3.count words that are symetric (polyndrom)
+    4.convert strings to oposite
+    5.matrix multiplication
+    6.calculaor with + - *  / sin cos
+    */
 }
