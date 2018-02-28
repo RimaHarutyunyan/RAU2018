@@ -3,6 +3,13 @@ package day3;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**a
+ * {@code
+ *
+ *
+ * a>b
+ * }
+ */
 public class Student {
     private final int age;
     private String fullName;
@@ -49,7 +56,8 @@ public class Student {
 
     public boolean equals(Student that) {
         return this.age == that.age
-                && (this.fullName == null && that.fullName == null || this.fullName != null && this.fullName.equals(that.fullName))
+                && (this.fullName == null && that.fullName == null
+                || this.fullName != null && this.fullName.equals(that.fullName))
                 //&& (this.fullName == that.fullName  || this.fullName != null && this.fullName.equals(that.fullName))
                 && Objects.equals(this.faculty, that.faculty);
     }
@@ -67,15 +75,15 @@ public class Student {
         }
 
     }
-    public static Student createStudent(int age, String name){
+    public static Student newStudent(int age, String name){
         return new Student(age, name);
     }
 
-    public static Student createStudentByBirthYear(int year, String name){
+    public static Student newStudentByBirthYear(int year, String name){
         return new Student(name, year);
     }
 
-    public static Student createStudentInFaculty(int age, String name, String faculty){
+    public static Student newStudentInFaculty(int age, String name, String faculty){
         return new Student(age, name, faculty);
     }
 
@@ -86,9 +94,9 @@ public class Student {
         student1.setFaculty("Applied Mathematics & Informatics");
         Student student2 = new Student(19, "Katya", "Applied Mathematics & Informatics");
 
-        Student student3 = Student.createStudent(19, "Katya");
-//        student3 = Student.createStudentInFaculty(19, "Katya", "Applied Mathematics & Informatics");
-//        Student student4 = Student.createStudentByBirthYear(1999, "Katya");
+        Student student3 = Student.newStudent(19, "Katya");
+//        student3 = Student.newStudentInFaculty(19, "Katya", "Applied Mathematics & Informatics");
+//        Student student4 = Student.newStudentByBirthYear(1999, "Katya");
 
     }
 }
