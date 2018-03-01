@@ -4,45 +4,34 @@ import java.util.*;
 
 public class CardDeck {
 
-    static final String[] SUITS = {"H", "S", "C", "D"};
-    static final String[] RANKS = {"6", "7", "8", "9", "10", "J", "Q", "K", "A"};
-
-    private Queue<Card> cardQueue;
+    private Stack<Card> cardStack;
     private Card trumpCard;
-    private int size;
+    private int deckSize;
 
     public CardDeck() {
-        List<Card> cardList = new ArrayList<>();
-        cardQueue = new LinkedList<>();
+        cardStack = new Stack<>();
 
-        for (String suit : SUITS) {
-            for (String rank : RANKS) {
-                cardList.add(new Card(suit, rank));
+        for (Suit suit : Suit.values()) {
+            for (int rankInt = 1; rankInt <= Rank.getMaxRank(); ++rankInt) {
+                cardStack.push(new Card(suit, new Rank(rankInt)));
             }
         }
 
-        Collections.shuffle(cardList);
+        Collections.shuffle(cardStack);
 
-        cardQueue.addAll(cardList);
-
-        trumpCard = cardQueue.peek();
-        size = cardQueue.size();
+        trumpCard = cardStack.peek();
+        deckSize = cardStack.size();
     }
 
     public Card getTrumpCard() {
         return trumpCard;
     }
 
-    public int getSize() {
-        return size;
+    public int getDeckSize() {
+        return deckSize;
     }
 
-    Card pop() {
-        if (size != 0) {
-            --size;
-            return cardQueue.poll();
-        }
-
-        throw new NullPointerException("The deck is empty!");
+    Card topCard() {
+        return cardStack.pop();
     }
 }

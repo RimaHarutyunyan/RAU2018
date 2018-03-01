@@ -2,48 +2,37 @@ package durak_game;
 
 public class Card {
 
-    private static final int RANK_OFFSET = 11;
+    private Suit suit;
+    private Rank rank;
 
-    private String suit;
-    private String rank;
-    private int rankInt;
-
-    public Card(String suit, String rank) {
+    public Card(Suit suit, Rank rank) {
         this.suit = suit;
         this.rank = rank;
-        try {
-            rankInt = Integer.parseInt(rank);
-        } catch (NumberFormatException e) {
-            rankInt = "JQKA".indexOf(rank) + RANK_OFFSET;
-        }
     }
 
     public String getSuit() {
-        return suit;
+        return suit.name();
     }
 
     public String getRank() {
-        return rank;
+        return rank.toString();
     }
 
-    public int getRankInt() {
-        return rankInt;
-    }
-
-    Integer compareTo(final Card c) {
-        if (this.suit.equals(c.suit)) {
-            return this.rankInt - c.rankInt;
+    int compareTo(final Card that) {
+        if (this.suit.equals(that.suit)) {
+            return this.rank.compareTo(that.rank);
         }
-        return null;
+        throw new RuntimeException("Incomparable! The suits don't match.");
     }
 
     @Override
     public String toString() {
-        return suit + rank;
+        return suit.name() + rank.toString();
     }
 
-    boolean equals (final Card c) {
-        return this.rank.equals(c.rank) && this.suit.equals(c.suit);
+    public boolean equals (final Card that) {
+        return this.suit.equals(that.suit)
+                && this.rank.equals(that.rank);
     }
 
 }
