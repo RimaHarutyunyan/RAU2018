@@ -12,14 +12,14 @@ public class PlayerCircle {
 
     public Player first() {
         if (!isEmpty()) {
-            return this.head.attacker;
+            return this.head.player;
         }
         throw new NullPointerException();
     }
 
     public Player last() {
         if (!isEmpty()) {
-            return tail.attacker;
+            return tail.player;
         }
         throw new NullPointerException();
     }
@@ -32,8 +32,13 @@ public class PlayerCircle {
         return 0;
     }
 
+    public Player next() {
+        head = head.nextPlayer;
+        return head.player;
+    }
+
     private class PlayerNode {
-        Player attacker;
-        PlayerNode next;
+        Player player;
+        PlayerNode nextPlayer;
     }
 }

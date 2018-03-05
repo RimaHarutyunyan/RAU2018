@@ -1,101 +1,51 @@
 package durak_game;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Defense {
 
-    private Player defender;
+    private Player defeder;
     private PlayerCircle attackers;
     private Player expectedPlayer;
     private Player currentAttacker;
-    private List<Card> tableCards;
-    private String trumpSuit;
+
+    private GameTable gameTable;
+
     private int passCount;
     private boolean isFinished;
 
-    public Defense(Player defender, PlayerCircle attackers, String trumpSuit) {
-        this.defender = defender;
+    public Defense(Player defeder, PlayerCircle attackers) {
+        this.defeder = defeder;
         this.attackers = attackers;
-        this.trumpSuit = trumpSuit;
 
-        tableCards = new ArrayList<>();
+        gameTable = new GameTable();
         expectedPlayer = attackers.first();
-        passCount = 0;
         isFinished = false;
+        passCount = 0;
     }
 
-    public boolean acceptCard(Player player, Card card) {
-        if (player.equals(expectedPlayer)) {
-            return false;
+    public boolean beatCard(final Card cardToBeat, final Card card) {
+        if (expectedPlayer.equals(defeder)) {
+            return gameTable.defendCard(cardToBeat, card);
         }
-
-        boolean valid;
-
-        if (!player.equals(defender)) {
-            currentAttacker = player;
-            valid = attack(card);
-        } else {
-            valid = defend(card);
-        }
-
-        if (valid) {
-            player.give(card);
-        }
-
-        return valid;
-    }
-
-    private boolean defend(Card card) {
-        if (card.compareTo(tableCards.get(tableCards.size() - 1)) > 0 ||
-                (card.getSuit().equals(trumpSuit) &&
-                !tableCards.get(tableCards.size() - 1).getSuit().equals(trumpSuit))) {
-            tableCards.add(card);
-            expectedPlayer = currentAttacker;
-
-            return true;
-        }
-
-        if (defender.handCards.size() == 0 || tableCards.size() >= 12) {
-            isFinished = true;
-            return true;
-        }
-
         return false;
     }
 
-    private boolean attack(Card card) {
-        if (tableCards.size() == 0 || rankExists(card.getRank())) {
-            tableCards.add(card);
-            expectedPlayer = defender;
-
-            passCount = 0;
-
-            return true;
+    public boolean attackWith(final Player player, final Card card) {
+        if (player.equals(currentAttacker)) {
+            return gameTable.attackCard(card);
         }
-
         return false;
     }
 
-    private boolean rankExists(String rank) {
-        return tableCards.stream()
-                .anyMatch(card -> rank.equals(card.getRank()));
-    }
+    public void passMove(final Player playerPassing) {
+        if (currentAttacker.equals(playerPassing)) {
+            ++passCount;
+        }
 
-    public void passMoveTo(Player player) {
-        //TODO
-    }
-
-    public void giveCardsTo(Player player) {
         if (passCount == attackers.size()) {
-            player.take(tableCards);
-            tableCards.clear();
-            player.setPickedUp(true);
             isFinished = true;
+            return;
         }
 
-        expectedPlayer = currentAttacker;
-
-        //TODO
+        expectedPlayer = currentAttacker = attackers.next();
     }
 }

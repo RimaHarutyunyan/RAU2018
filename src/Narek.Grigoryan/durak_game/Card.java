@@ -10,12 +10,12 @@ public class Card {
         this.rank = rank;
     }
 
-    public String getSuit() {
-        return suit.name();
+    public Suit getSuit() {
+        return suit;
     }
 
-    public String getRank() {
-        return rank.toString();
+    public Rank getRank() {
+        return rank;
     }
 
     int compareTo(final Card that) {
